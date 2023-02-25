@@ -1,11 +1,11 @@
 import { sendError } from 'h3';
-import type { UserInput } from '~~/types/user';
+import type { RegisterUserInput } from '~~/types/user';
 import { createUser } from '~~/server/db/users';
 import { isValidEmail, isValidPassword } from '~~/utils/validator';
 import { userTransformer } from '~~/server/transformers/user';
 
 export default defineEventHandler(async event => {
-  const body: UserInput = await readBody(event);
+  const body: RegisterUserInput = await readBody(event);
   const { username, email, password, confirmPassword, name } = body;
 
   if (!username || !email || !password || !confirmPassword || !name) {

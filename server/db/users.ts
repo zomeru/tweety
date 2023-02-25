@@ -1,15 +1,31 @@
 import { prisma } from '.';
-import type { UserPrismaInput } from '~~/types/user';
+import type { RegisterUserPrismaInput } from '~~/types/user';
 import bcrypt from 'bcrypt';
 
-export const createUser = async (userData: UserPrismaInput) => {
+export const createUser = (userData: RegisterUserPrismaInput) => {
   const saltRounds = 10;
   const finalData = {
     ...userData,
     password: bcrypt.hashSync(userData.password, saltRounds),
   };
 
-  return await prisma.user.create({
+  return prisma.user.create({
     data: finalData,
+  });
+};
+
+export const getUserByEmail = (email: string) => {
+  return prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+};
+
+export const getUserByUsername = (username: string) => {
+  return prisma.user.findUnique({
+    where: {
+      username,
+    },
   });
 };
