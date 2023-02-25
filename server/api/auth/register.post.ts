@@ -59,6 +59,6 @@ export default defineEventHandler(async event => {
   });
 
   return {
-    data: userTransformer(user),
+    user: userTransformer(user),
   };
 });
