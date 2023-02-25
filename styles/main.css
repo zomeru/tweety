@@ -6,4 +6,8 @@
   .default-transition {
     @apply transition-all duration-300 ease-in-out;
   }
+
+  .tweety-border-color {
+    @apply border-white dark:border-gray-700;
+  }
 }
