@@ -1,10 +1,11 @@
 import { isValidEmail } from '~~/utils/validator';
+import jwtDecode from 'jwt-decode';
 
 export default () => {
   const useAuthToken = () => useState('auth_token');
   const useAuthUser = () => useState('auth_user');
-  const loading = ref(false);
-  const loadingUser = ref(true);
+  const useAuthLoading = () => useState('auth_loading', () => false);
+  const useUserLoading = () => useState('user_loading', () => true);
 
   const setToken = (newToken: string) => {
     const authToken = useAuthToken();
@@ -16,6 +17,16 @@ export default () => {
     authUser.value = newUser;
   };
 
+  const setIsUserLoading = (newLoading: boolean) => {
+    const userLoading = useUserLoading();
+    userLoading.value = newLoading;
+  };
+
+  const setAuthLoading = (newLoading: boolean) => {
+    const authLoading = useAuthLoading();
+    authLoading.value = newLoading;
+  };
+
   const login = async ({
     usernameOrEmail,
     password,
@@ -23,7 +34,7 @@ export default () => {
     usernameOrEmail: string;
     password: string;
   }) => {
-    loading.value = true;
+    setAuthLoading(true);
     const isEmail = isValidEmail(usernameOrEmail);
 
     let body: any = {
@@ -47,7 +58,7 @@ export default () => {
         console.log('error login - useAuth', error);
         reject(error);
       } finally {
-        loading.value = false;
+        setAuthLoading(false);
       }
     });
   };
@@ -83,20 +94,40 @@ export default () => {
     });
   };
 
+  const reRefreshToken = () => {
+    const authToken = useAuthToken();
+
+    if (!authToken.value) return;
+
+    const jwt = jwtDecode<{
+      exp: number;
+      iat: number;
+      userId: string;
+    }>(authToken.value as string);
+
+    const expirationTime = jwt.exp - 60000;
+
+    setTimeout(async () => {
+      await refreshToken().then(reRefreshToken);
+    }, expirationTime);
+  };
+
   const initAuth = () => {
-    loadingUser.value = true;
     return new Promise(async (resolve, reject) => {
       try {
+        setIsUserLoading(true);
         await refreshToken().then(async () => {
           await getUser();
         });
+
+        reRefreshToken();
 
         resolve(true);
       } catch (error) {
         console.log('error initAuth - seAuth', error);
         reject(error);
       } finally {
-        loadingUser.value = false;
+        setIsUserLoading(false);
       }
     });
   };
@@ -106,7 +137,7 @@ export default () => {
     useAuthUser,
     useAuthToken,
     initAuth,
-    loading,
-    loadingUser,
+    useAuthLoading,
+    useUserLoading,
   };
 };
