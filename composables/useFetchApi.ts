@@ -1,18 +1,11 @@
-export default async (url: string, options: RequestInit = {}) => {
+export default (url: string, options: any = {}) => {
   const { useAuthToken } = useAuth();
 
-  const { headers, ...rest } = options;
-  const res = await fetch(url, {
-    ...rest,
+  return $fetch(url, {
+    ...options,
     headers: {
-      'Content-Type': 'application/json',
-      ...headers,
+      ...options.headers,
       Authorization: `Bearer ${useAuthToken().value}`,
     },
   });
-  if (res.ok) {
-    return res.json();
-  }
-  const error = await res.json();
-  throw new Error(error.message);
 };

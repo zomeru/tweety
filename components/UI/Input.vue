@@ -13,7 +13,7 @@
         :id="props.label?.toLocaleLowerCase()"
         class="block px-4 w-full border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
         :placeholder="placeholder"
-        @input="event => emits('update:modelValue', handleInputChange(event))"
+        @input="event => handleInputChange(event)"
       />
     </div>
   </div>
@@ -29,10 +29,14 @@
     type?: InputHTMLAttributes['type'];
   }
 
+  interface InputEmits {
+    (e: 'update:modelValue', value: string): void;
+  }
+
   const props = defineProps<InputProps>();
-  const emits = defineEmits(['update:modelValue']);
+  const emits = defineEmits<InputEmits>();
 
   const handleInputChange = (event: Event) => {
-    return (event.target as HTMLInputElement).value;
+    emits('update:modelValue', (event.target as HTMLInputElement).value);
   };
 </script>

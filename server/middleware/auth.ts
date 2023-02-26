@@ -5,7 +5,7 @@ import { getUserById } from '../db/users';
 import { userTransformer } from '../transformers/user';
 
 export default defineEventHandler(async event => {
-  const endpoints = ['/api/auth/user'];
+  const endpoints = ['/api/auth/user', '/api/user/tweets'];
 
   const isHandledByThisMiddleware = endpoints.some(endpoint => {
     const pattern = new UrlPattern(endpoint);
@@ -26,8 +26,6 @@ export default defineEventHandler(async event => {
 
   try {
     const user = await getUserById(decoded.userId);
-
-    console.log('USER middleware', user);
 
     if (!user) return sendUnauthorized(event);
 

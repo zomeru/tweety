@@ -22,10 +22,25 @@
         </template>
         <template v-slot:name> {{ item.name }} </template>
       </SidebarLeftTab>
+
+      <div class="hidden lg:block">
+        <UIButton liquid size="lg">
+          <span class="font-bold"> Tweet </span>
+        </UIButton>
+      </div>
+
+      <div class="block lg:hidden">
+        <UIButton>
+          <div class="w-6 h-6 font-bold">
+            <PencilIcon />
+          </div>
+        </UIButton>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+  import { PencilIcon } from '@heroicons/vue/outline';
   import { sidebarItems } from '~~/constants';
 </script>

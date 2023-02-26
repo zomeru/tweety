@@ -1,9 +1,11 @@
 import { isValidEmail } from '~~/utils/validator';
 import jwtDecode from 'jwt-decode';
+import { UserResponseType } from '~~/types/user';
 
 export default () => {
   const useAuthToken = () => useState('auth_token');
-  const useAuthUser = () => useState('auth_user');
+  const useAuthUser = () =>
+    useState('auth_user', () => null as unknown as UserResponseType);
   const useAuthLoading = () => useState('auth_loading', () => false);
   const useUserLoading = () => useState('user_loading', () => true);
 
@@ -12,7 +14,7 @@ export default () => {
     authToken.value = newToken;
   };
 
-  const setUser = (newUser: any) => {
+  const setUser = (newUser: UserResponseType) => {
     const authUser = useAuthUser();
     authUser.value = newUser;
   };
