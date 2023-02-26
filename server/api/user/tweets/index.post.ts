@@ -3,6 +3,7 @@ import { createTweet } from '~~/server/db/tweets';
 import { createMediaFile } from '~~/server/db/mediaFiles';
 import { tweetTransformer } from '~~/server/transformers/tweet';
 import { ResourceApiResponse } from 'cloudinary';
+import { mediaFileTransformer } from '~~/server/transformers/mediaFiles';
 
 export default defineEventHandler(async event => {
   const form = formidable({});
@@ -30,10 +31,16 @@ export default defineEventHandler(async event => {
   const { fields, files } = response;
   const userId: string = event.context?.auth?.id;
 
-  const tweetData = {
+  const tweetData: any = {
     authorId: userId,
     text: fields.text.toString(),
   };
+
+  const replyTo = fields.replyTo as string;
+
+  if (replyTo && replyTo !== 'null') {
+    tweetData['replyToId'] = replyTo;
+  }
 
   const tweet = await createTweet(tweetData);
 
@@ -56,6 +63,6 @@ export default defineEventHandler(async event => {
 
   return {
     tweet: tweetTransformer(tweet),
-    fileResponse,
+    files: [...fileResponse.map(mediaFileTransformer)],
   };
 });

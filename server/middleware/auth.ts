@@ -5,7 +5,7 @@ import { getUserById } from '../db/users';
 import { userTransformer } from '../transformers/user';
 
 export default defineEventHandler(async event => {
-  const endpoints = ['/api/auth/user', '/api/user/tweets'];
+  const endpoints = ['/api/auth/user', '/api/user/tweets', '/api/tweets'];
 
   const isHandledByThisMiddleware = endpoints.some(endpoint => {
     const pattern = new UrlPattern(endpoint);

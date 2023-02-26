@@ -35,8 +35,8 @@
 </template>
 
 <script lang="ts" setup>
-  import './styles/main.css';
-  const darkMode = ref(false);
+  import '~~/assets/css/main.css';
+  const darkMode = ref(true);
 
   const { useAuthUser, initAuth, useUserLoading } = useAuth();
   const user = useAuthUser();
