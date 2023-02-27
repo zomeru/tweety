@@ -11,8 +11,9 @@
       <div class="w-full p-2">
         <textarea
           v-model="text"
-          class="w-full h-10 text-lg text-gray-900 placeholder:text-gray-400 bg-transparent border-0 dark:text-white focus:ring-0"
-          placeholder="What's happening?"
+          class="w-full h-10 text-lg text-gray-900 placeholder:text-gray-400 bg-transparent border-0 dark:text-white focus:ring-0 overflow-hidden"
+          :placeholder="props.placeholder || `What's happening?`"
+          style="resize: none"
         />
       </div>
     </div>
@@ -107,6 +108,7 @@
 
   interface FormInputProps {
     user: UserResponseType;
+    placeholder?: string;
   }
 
   interface FormInputEmits {

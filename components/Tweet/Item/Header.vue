@@ -21,9 +21,9 @@
       <p v-if="props.tweet.replyTo">
         <span class="text-gray-500"> Replying to </span>
 
-        <NuxtLink :to="replyToTweetUrl" class="text-blue-400">
+        <span @click="goToReplyToTweet" class="text-blue-400 cursor-pointer">
           @{{ props.tweet.replyTo?.author?.username }}
-        </NuxtLink>
+        </span>
       </p>
     </div>
   </div>
@@ -36,9 +36,17 @@
     tweet: TweetResponse;
   }
 
+  const router = useRouter();
+
   const props = defineProps<ItemHeaderProps>();
   const author = props.tweet.author;
   const replyToTweetUrl = computed(
     () => `/status/${props.tweet.replyTo?.id || ''}`
   );
+
+  const goToReplyToTweet = () => {
+    if (props.tweet.replyTo) {
+      router.push(replyToTweetUrl.value);
+    }
+  };
 </script>

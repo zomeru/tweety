@@ -24,13 +24,12 @@
   const user = useAuthUser();
   const homeTweets = ref<TweetResponse[]>([]);
 
-  onBeforeMount(async () => {
+  onMounted(async () => {
     loading.value = true;
 
     try {
-      const tweets = await getHomeTweets();
-      console.log('tweets', tweets);
-      homeTweets.value = tweets;
+      const { tweets } = await getHomeTweets();
+      homeTweets.value = tweets || [];
     } catch (error) {
       console.log('error', error);
     } finally {

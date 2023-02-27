@@ -1,25 +1,25 @@
 import { getRefreshToken } from '~~/server/db/refreshTokens';
 import { decodeRefreshToken, generateTokens } from '~~/server/utils/jwt';
 import { getUserById } from '~~/server/db/users';
-import { sendUnauthorized } from '~~/server/utils/sendUnauthorized';
+import { sendErrorMsg } from '~~/server/utils/sendErrorMsg';
 
 export default defineEventHandler(async event => {
   const refreshToken = getCookie(event, 'refresh_token');
 
-  if (!refreshToken) return sendUnauthorized(event);
+  if (!refreshToken) return sendErrorMsg(event);
 
   const refreshTokenDB = await getRefreshToken(refreshToken);
 
-  if (!refreshTokenDB) return sendUnauthorized(event);
+  if (!refreshTokenDB) return sendErrorMsg(event);
 
   const token = decodeRefreshToken(refreshToken);
 
   try {
-    if (!token) return sendUnauthorized(event);
+    if (!token) return sendErrorMsg(event);
 
     const user = await getUserById(token.userId);
 
-    if (!user) return sendUnauthorized(event);
+    if (!user) return sendErrorMsg(event);
 
     const { accessToken } = generateTokens(user);
 
@@ -27,7 +27,7 @@ export default defineEventHandler(async event => {
       access_token: accessToken,
     };
   } catch (error) {
-    return sendUnauthorized(event, {
+    return sendErrorMsg(event, {
       statusCode: 500,
       statusMessage: 'Something went wrong',
     });

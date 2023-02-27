@@ -11,7 +11,7 @@
           <!-- Left sidebar -->
           <div class="hidden md:block xs:col-span-1 lg:col-span-2">
             <div class="sticky top-0">
-              <SidebarLeft />
+              <SidebarLeft @onTweet="openPostTweetModal" />
             </div>
           </div>
 
@@ -30,21 +30,40 @@
       </div>
       <!-- Auth Page -->
       <AuthPage v-else />
+
+      <UIModal :isOpen="postTweetModalStatus" @onClose="closePostTweetModal">
+        <TweetForm
+          :user="user"
+          @onSuccess="closePostTweetModal"
+          :replyTo="replyTweet"
+          showReply
+        />
+      </UIModal>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import '~~/assets/css/main.css';
-  const darkMode = ref(true);
+  import { TweetResponse } from './types/tweets';
 
+  const {
+    closePostTweetModal,
+    openPostTweetModal,
+    usePostTweetModalStatus,
+    useReplyTweet,
+  } = useTweets();
   const { useAuthUser, initAuth, useUserLoading } = useAuth();
+
+  const darkMode = ref(true);
+  const postTweetModalStatus = usePostTweetModalStatus();
   const user = useAuthUser();
   const userLoading = useUserLoading();
+  const replyTweet = useReplyTweet();
 
-  console.log('userLoading', userLoading);
-
-  onBeforeMount(() => {
-    initAuth();
+  const emitter = useEmitter();
+  emitter.$on('replyTweet', tweet => {
+    openPostTweetModal(tweet as TweetResponse);
   });
+
+  onMounted(initAuth);
 </script>

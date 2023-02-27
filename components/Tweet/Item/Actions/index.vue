@@ -4,12 +4,14 @@
       v-for="action in actions"
       :color="action.color"
       :key="action.name"
+      :size="size"
+      @onClick="action.onClick ? action.onClick() : null"
     >
       <template v-slot:icon="{ classes }">
         <component :is="action.Icon" :class="classes" />
       </template>
 
-      <template v-slot:default> {{ action.count }} </template>
+      <template v-slot:default v-if="showStats"> {{ action.count }}</template>
     </TweetItemActionsIcon>
   </div>
 </template>
@@ -25,25 +27,37 @@
 
   interface ActionProps {
     tweet: TweetResponse;
+    compact: boolean;
   }
+
+  interface ActionEmits {
+    (e: 'onCommentClick'): void;
+  }
+
+  const showStats = computed(() => props.compact);
+  const size = computed(() => (props.compact ? 5 : 8));
 
   function generateRandomNumber() {
     return Math.floor(Math.random() * 100);
   }
 
-  const props = defineProps<ActionProps>();
+  const props = withDefaults(defineProps<ActionProps>(), {
+    compact: false,
+  });
+  const emits = defineEmits<ActionEmits>();
 
   const actions = computed(() => [
     {
       name: 'Comment',
       Icon: ChatIcon,
-      count: generateRandomNumber(),
+      count: props.tweet.repliesCount,
       color: 'blue',
+      onClick: () => emits('onCommentClick'),
     },
     {
       name: 'Retweet',
       Icon: RefreshIcon,
-      count: props.tweet.repliesCount,
+      count: generateRandomNumber(),
       color: 'green',
     },
     {

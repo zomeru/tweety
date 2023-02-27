@@ -1,6 +1,6 @@
 import { H3Event } from 'h3';
 
-export const sendUnauthorized = (
+export const sendErrorMsg = (
   event: H3Event,
   options?: {
     statusCode?: number;

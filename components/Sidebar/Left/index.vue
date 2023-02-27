@@ -24,13 +24,13 @@
       </SidebarLeftTab>
 
       <div class="hidden lg:block">
-        <UIButton liquid size="lg">
+        <UIButton liquid size="lg" @onClick="emits('onTweet')">
           <span class="font-bold"> Tweet </span>
         </UIButton>
       </div>
 
       <div class="block lg:hidden">
-        <UIButton>
+        <UIButton @onClick="emits('onTweet')">
           <div class="w-6 h-6 font-bold">
             <PencilIcon />
           </div>
@@ -43,4 +43,10 @@
 <script lang="ts" setup>
   import { PencilIcon } from '@heroicons/vue/outline';
   import { sidebarItems } from '~~/constants';
+
+  interface SidebarLeftEmits {
+    (e: 'onTweet'): void;
+  }
+
+  const emits = defineEmits<SidebarLeftEmits>();
 </script>

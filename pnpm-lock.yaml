@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@headlessui/vue': ^1.7.11
   '@heroicons/vue': 1.0.6
   '@nuxtjs/tailwindcss': ^6.4.1
   '@prisma/client': ^4.10.1
@@ -14,11 +15,13 @@ specifiers:
   formidable: ^2.1.1
   jsonwebtoken: ^9.0.0
   jwt-decode: ^3.1.2
+  mitt: ^3.0.0
   nuxt: ^3.2.2
   prisma: ^4.10.1
   url-pattern: ^1.0.3
 
 dependencies:
+  '@headlessui/vue': 1.7.11
   '@heroicons/vue': 1.0.6
   '@prisma/client': 4.10.1_prisma@4.10.1
   bcrypt: 5.1.0
@@ -27,6 +30,7 @@ dependencies:
   formidable: 2.1.1
   jsonwebtoken: 9.0.0
   jwt-decode: 3.1.2
+  mitt: 3.0.0
   url-pattern: 1.0.3
 
 devDependencies:
@@ -785,6 +789,13 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@headlessui/vue/1.7.11:
+    resolution: {integrity: sha512-VsNqx9Lc1ftOyIazBF9EX5BS4WYwwaFX+1jBWXQakeH1o4xnoZKlBSlvEgmAnFLO9GDVmn7kKVOWfFgQn2aRZA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      vue: ^3.2.0
+    dev: false
 
   /@heroicons/vue/1.0.6:
     resolution: {integrity: sha512-ng2YcCQrdoQWEFpw+ipFl2rZo8mZ56v0T5+MyfQQvNqfKChwgP6DMloZLW+rl17GEcHkE3H82UTAMKBKZr4+WA==}
@@ -3956,6 +3967,10 @@ packages:
     dependencies:
       minipass: 3.3.6
       yallist: 4.0.0
+
+  /mitt/3.0.0:
+    resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
+    dev: false
 
   /mkdir/0.0.2:
     resolution: {integrity: sha512-98OnjcWaNEIRUJJe9rFoWlbkQ5n9z8F86wIPCrI961YEViiVybTuJln919WuuSHSnlrqXy0ELKCntoPy8C7lqg==}

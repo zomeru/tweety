@@ -6,11 +6,12 @@
 
     <div
       v-else
-      class="pb-4 border-b tweety-border-color hover:bg-gray-100 dark:hover:bg-dim-300 default-transition"
+      class="pb-4 border-b tweety-border-color hover:bg-gray-100 dark:hover:bg-dim-300 default-transition cursor-pointer"
       v-for="tweet in props.tweets"
       :key="tweet.id"
+      @click.native="redirect(tweet)"
     >
-      <TweetItem :tweet="tweet" />
+      <TweetItem :tweet="tweet" compact />
     </div>
   </div>
 </template>
@@ -25,4 +26,8 @@
   const props = defineProps<ListFeedProps>();
 
   const isFeedEmpty = computed(() => props.tweets.length === 0);
+
+  function redirect(tweet: TweetResponse) {
+    navigateTo(`/status/${tweet.id}`);
+  }
 </script>
