@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <div class="w-full">
+    <div class="flex justify-center">
+      <div class="w-10 h-10">
+        <LogoTwitter />
+      </div>
+    </div>
+
     <div class="pt-5 space-y-6">
       <UIInput
         label="Username"
@@ -12,12 +18,8 @@
         type="password"
         v-model="credentials.password"
       />
-      <h2>{{ credentials.username }}</h2>
-      <div>
-        <button @click="handleLogin" :disabled="credentials.loading">
-          Log in
-        </button>
-      </div>
+
+      <UIButton liquid :disabled="isAuthButtonDisabled"> Login</UIButton>
     </div>
   </div>
 </template>
@@ -35,7 +37,7 @@
     credentials.loading = true;
 
     try {
-      login({
+      await login({
         usernameOrEmail: credentials.username,
         password: credentials.password,
       });
@@ -45,4 +47,10 @@
       credentials.loading = false;
     }
   }
+
+  const isAuthButtonDisabled = computed(() => {
+    return (
+      credentials.loading || !credentials.username || !credentials.password
+    );
+  });
 </script>

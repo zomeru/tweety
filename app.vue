@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ dark: darkMode }">
+  <div :class="{ dark: theme === 'dark' }">
     <div class="bg-white dark:bg-dim-900">
       <LoadingPage v-if="userLoading" />
 
@@ -11,7 +11,11 @@
           <!-- Left sidebar -->
           <div class="hidden md:block xs:col-span-1 lg:col-span-2">
             <div class="sticky top-0">
-              <SidebarLeft @onTweet="openPostTweetModal" />
+              <SidebarLeft
+                :user="user"
+                @onTweet="openPostTweetModal"
+                @onLogout="handleUserLogout"
+              />
             </div>
           </div>
 
@@ -52,9 +56,11 @@
     usePostTweetModalStatus,
     useReplyTweet,
   } = useTweets();
-  const { useAuthUser, initAuth, useUserLoading } = useAuth();
+  const { useAuthUser, initAuth, useUserLoading, logout } = useAuth();
+  const { useCurrentTheme, getTheme, setTheme } = useThemeMode();
 
-  const darkMode = ref(true);
+  const theme = useCurrentTheme();
+
   const postTweetModalStatus = usePostTweetModalStatus();
   const user = useAuthUser();
   const userLoading = useUserLoading();
@@ -65,5 +71,18 @@
     openPostTweetModal(tweet as TweetResponse);
   });
 
-  onMounted(initAuth);
+  emitter.$on('toggleTheme', () => {
+    setTheme(theme.value === 'dark' ? 'light' : 'dark');
+  });
+
+  function handleUserLogout() {
+    logout();
+  }
+
+  onBeforeMount(() => {
+    getTheme();
+    initAuth();
+  });
+
+  // onMounted(getTheme);
 </script>

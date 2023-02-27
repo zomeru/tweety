@@ -134,6 +134,21 @@ export default () => {
     });
   };
 
+  const logout = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await useFetchApi('/api/auth/logout', {
+          method: 'POST',
+        });
+        setToken('');
+        setUser(null as unknown as UserResponseType);
+        resolve(true);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
   return {
     login,
     useAuthUser,
@@ -141,5 +156,6 @@ export default () => {
     initAuth,
     useAuthLoading,
     useUserLoading,
+    logout,
   };
 };

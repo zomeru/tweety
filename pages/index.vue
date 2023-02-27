@@ -18,17 +18,17 @@
   import { TweetResponse } from '~~/types/tweets';
 
   const { useAuthUser } = useAuth();
-  const { getHomeTweets } = useTweets();
+  const { getTweets } = useTweets();
 
   const loading = ref(false);
   const user = useAuthUser();
   const homeTweets = ref<TweetResponse[]>([]);
 
-  onMounted(async () => {
+  onBeforeMount(async () => {
     loading.value = true;
 
     try {
-      const { tweets } = await getHomeTweets();
+      const { tweets } = await getTweets();
       homeTweets.value = tweets || [];
     } catch (error) {
       console.log('error', error);

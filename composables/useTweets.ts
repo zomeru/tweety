@@ -57,7 +57,9 @@ export default () => {
     });
   };
 
-  const getHomeTweets = (): Promise<{
+  const getTweets = (
+    params?: any
+  ): Promise<{
     tweets: TweetResponse[];
   }> => {
     return new Promise((resolve, reject) => {
@@ -66,6 +68,7 @@ export default () => {
           tweets: TweetResponse[];
         }>('/api/tweets', {
           method: 'GET',
+          params,
         });
         resolve(response);
       } catch (error) {
@@ -94,7 +97,7 @@ export default () => {
 
   return {
     postTweet,
-    getHomeTweets,
+    getTweets,
     getTweetById,
     usePostTweetModalStatus,
     closePostTweetModal,

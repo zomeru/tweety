@@ -36,7 +36,7 @@
   interface TweetItemProps {
     tweet: TweetResponse;
     compact: boolean;
-    hideActions: boolean;
+    hideActions?: boolean;
   }
 
   const props = withDefaults(defineProps<TweetItemProps>(), {

@@ -23,13 +23,7 @@
   const { useAuthUser } = useAuth();
   const user = useAuthUser();
   const route = useRoute();
-  // const id = computed(() => route.params.id as string);
   const id = route.params.id as string;
-
-  watch(() => route.fullPath, getTweet);
-
-  // console.log('id', id.value);
-  console.log('params', route);
 
   async function getTweet() {
     try {
@@ -43,5 +37,7 @@
     }
   }
 
-  onMounted(getTweet);
+  watch(() => route.fullPath, getTweet);
+
+  onBeforeMount(getTweet);
 </script>
