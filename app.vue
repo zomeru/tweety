@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ dark: theme === 'dark' }">
+  <div :class="{ dark: theme === 'dark' }" v-if="theme">
     <div class="bg-white dark:bg-dim-900">
       <LoadingPage v-if="userLoading" />
 
@@ -14,7 +14,7 @@
               <SidebarLeft
                 :user="user"
                 @onTweet="openPostTweetModal"
-                @onLogout="handleUserLogout"
+                @onLogout="logout"
               />
             </div>
           </div>
@@ -45,6 +45,7 @@
       </UIModal>
     </div>
   </div>
+  <div else />
 </template>
 
 <script lang="ts" setup>
@@ -75,14 +76,11 @@
     setTheme(theme.value === 'dark' ? 'light' : 'dark');
   });
 
-  function handleUserLogout() {
-    logout();
-  }
-
   onBeforeMount(() => {
-    getTheme();
     initAuth();
   });
 
-  // onMounted(getTheme);
+  onMounted(() => {
+    getTheme();
+  });
 </script>

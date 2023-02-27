@@ -1,12 +1,12 @@
-type Theme = 'dark' | 'light';
+type Theme = 'dark' | 'light' | null;
 
 export default () => {
-  const useCurrentTheme = () => useState<Theme>('current_theme', () => 'dark');
+  const useCurrentTheme = () => useState<Theme>('current_theme', () => null);
 
   const setTheme = (theme: Theme) => {
     const newTheme = useCurrentTheme();
     newTheme.value = theme;
-    localStorage.setItem('theme', theme);
+    localStorage.setItem('theme', theme as string);
   };
 
   const getTheme = () => {

@@ -115,22 +115,24 @@ export default () => {
   };
 
   const initAuth = () => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        setIsUserLoading(true);
-        await refreshToken().then(async () => {
-          await getUser();
-        });
+    setIsUserLoading(true);
 
-        reRefreshToken();
+    return new Promise((resolve, reject) => {
+      setTimeout(async () => {
+        try {
+          await refreshToken().then(async () => {
+            await getUser();
+          });
 
-        resolve(true);
-      } catch (error) {
-        console.log('error initAuth - seAuth', error);
-        reject(error);
-      } finally {
-        setIsUserLoading(false);
-      }
+          reRefreshToken();
+          resolve(true);
+        } catch (error) {
+          console.log('error initAuth - seAuth', error);
+          reject(error);
+        } finally {
+          setIsUserLoading(false);
+        }
+      }, 1500);
     });
   };
 
