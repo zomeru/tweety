@@ -1,17 +1,17 @@
-import { MediaFile, Tweet, User } from '@prisma/client';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
+import { MediaFile, User } from '@prisma/client';
 import { TweetResponse, TweetTransformerResponse } from '~~/types/tweets';
 import { mediaFileTransformer } from './mediaFiles';
 import { userTransformer } from './user';
 
-dayjs.extend(relativeTime);
+// @ts-ignore
+import humanTime from 'human-time';
 
 export const tweetTransformer = (tweet: TweetTransformerResponse) => {
   const data: any = {
     id: tweet.id,
     text: tweet.text,
-    postedAt: dayjs(tweet.createdAt).fromNow(),
+    // @ts-ignore
+    postedAt: humanTime(tweet.createdAt),
   };
 
   if (tweet.mediaFiles)
