@@ -76,6 +76,9 @@
 
 <script lang="ts" setup>
   import { SearchIcon } from '@heroicons/vue/outline';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
 
   const { useCurrentTheme } = useThemeMode();
   const currentTheme = useCurrentTheme();
@@ -116,7 +119,7 @@
   const search = ref('');
 
   const handleSearch = () => {
-    useRouter().push({
+    router.push({
       name: 'search',
       params: {
         query: search.value,

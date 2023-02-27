@@ -27,7 +27,7 @@
 
   interface ActionProps {
     tweet: TweetResponse;
-    compact: boolean;
+    compact?: boolean;
   }
 
   interface ActionEmits {

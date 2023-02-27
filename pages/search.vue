@@ -12,12 +12,15 @@
 
 <script lang="ts" setup>
   import { TweetResponse } from '~~/types/tweets';
+  import { useRoute } from 'vue-router';
 
   const { getTweets } = useTweets();
 
+  const route = useRoute();
+
   const loading = ref(false);
   const searchTweets = ref<TweetResponse[]>([]);
-  const searchQuery = useRoute().query.query;
+  const searchQuery = route.query.query;
 
   async function _getTweets() {
     loading.value = true;
@@ -34,7 +37,7 @@
     }
   }
 
-  watch(() => useRoute().fullPath, _getTweets);
+  watch(() => route.fullPath, _getTweets);
 
   onBeforeMount(_getTweets);
 </script>

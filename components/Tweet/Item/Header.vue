@@ -31,6 +31,7 @@
 
 <script lang="ts" setup>
   import { TweetResponse } from '~~/types/tweets';
+  import { useRouter } from 'vue-router';
 
   interface ItemHeaderProps {
     tweet: TweetResponse;

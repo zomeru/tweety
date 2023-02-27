@@ -35,7 +35,7 @@
 
   interface TweetItemProps {
     tweet: TweetResponse;
-    compact: boolean;
+    compact?: boolean;
     hideActions?: boolean;
   }
 

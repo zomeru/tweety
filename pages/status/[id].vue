@@ -16,13 +16,14 @@
 
 <script lang="ts" setup>
   import { TweetResponse } from '~~/types/tweets';
+  import { useRoute } from 'vue-router';
+  const route = useRoute();
 
   const loading = ref(false);
   const currentTweet = ref<TweetResponse | null>(null);
   const { getTweetById } = useTweets();
   const { useAuthUser } = useAuth();
   const user = useAuthUser();
-  const route = useRoute();
   const id = route.params.id as string;
 
   async function getTweet() {
