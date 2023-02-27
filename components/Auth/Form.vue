@@ -19,7 +19,9 @@
         v-model="credentials.password"
       />
 
-      <UIButton liquid :disabled="isAuthButtonDisabled"> Login</UIButton>
+      <UIButton liquid :disabled="isAuthButtonDisabled" @onClick="handleLogin">
+        Login</UIButton
+      >
     </div>
   </div>
 </template>
